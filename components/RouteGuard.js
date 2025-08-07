@@ -9,9 +9,26 @@ const PUBLIC_PATHS = ['/', '/login', '/register', '/_error'];
 
 export default function RouteGuard(props) {
   const router = useRouter();
+  const [authorized, setAuthorized] = useState(false); // Add this state declaration
 
   const [favouritesList, setFavouritesList] = useAtom(favouritesAtom);
   const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom);
+
+  async function authCheck(url) {
+    // redirect to login page if accessing a private page and not logged in
+    const path = url.split('?')[0];
+    if (!isAuthenticated() && !PUBLIC_PATHS.includes(path)) {
+      setAuthorized(false);
+      router.push('/login');
+    } else {
+      setAuthorized(true);
+    }
+  }
+
+  async function updateAtoms() {
+    setFavouritesList(await getFavourites());
+    setSearchHistory(await getHistory());
+  }
 
   useEffect(() => {
     authCheck(router.pathname); // check on initial load
@@ -24,22 +41,5 @@ export default function RouteGuard(props) {
     };
   }, []);
 
-  // This checks if user is authenticated for protected routes
-function authCheck(url) {
-  // redirect to login page if accessing a private page and not logged in
-  const path = url.split('?')[0];
-  if (!isAuthenticated() && !PUBLIC_PATHS.includes(path)) {
-    setAuthorized(false);
-    router.push('/login');
-  } else {
-    setAuthorized(true);
-  }
-}
-
-  async function updateAtoms() {
-    setFavouritesList(await getFavourites());
-    setSearchHistory(await getHistory());
-  }
-
-  return <>{props.children}</>;
+  return authorized ? <>{props.children}</> : null; // Only render children if authorized
 }
