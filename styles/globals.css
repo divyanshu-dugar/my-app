@@ -1,0 +1,19 @@
+/* For the dropdown items */
+.navbar-dark .navbar-nav .dropdown-menu {
+  background-color: #343a40; /* Dark background */
+}
+
+.navbar-dark .navbar-nav .dropdown-item {
+  color: rgba(255, 255, 255, 0.75); /* Light text */
+}
+
+.navbar-dark .navbar-nav .dropdown-item:hover,
+.navbar-dark .navbar-nav .dropdown-item:focus {
+  color: #fff; /* White text on hover/focus */
+  background-color: rgba(255, 255, 255, 0.1); /* Slightly lighter background */
+}
+
+.navbar-dark .navbar-nav .dropdown-item.active {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.25); /* Highlight for active item */
+}
