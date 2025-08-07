@@ -45,7 +45,7 @@ export default function Home() {
               target="_blank" 
               rel="noreferrer"
             >
-              {" "}Wikipedia
+              &quote; &quote;Wikipedia
             </a>.
           </p>
         </Col>
